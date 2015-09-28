@@ -942,6 +942,54 @@ function crossBrowserRelativeMousePos(e) {
 	};
 }
 
+function importFromGV() {
+	nodes = [];
+	links = [];
+
+	nodeNames = {};
+
+	var x = 50;
+	var y = 50;
+
+	var text = prompt('Paste Graphviz:', '');
+	var body = text.match(/\{((?:.|\n)*)\}/)[1];
+	var lines = body.split(';');
+	for(var i = 0; i < lines.length; i++) {
+		var parts = lines[i].match(/\s*(\S+)\s*->\s*(\S+)(?:.*label="([^"]*)")?/);
+		if(!parts) {
+			continue;
+		}
+		var name1 = parts[1];
+		var name2 = parts[2];
+		var label = parts[3];
+
+		if(!nodeNames[name1]) {
+			var node = new Node(x += 70, y);
+			node.text = name1;
+			nodes.push(node);
+			nodeNames[name1] = node;
+		}
+		if(!nodeNames[name2]) {
+			var node = new Node(x += 70, y);
+			node.text = name2;
+			nodes.push(node);
+			nodeNames[name2] = node;
+		}
+
+		var n1 = nodeNames[name1];
+		var n2 = nodeNames[name2];
+		var link;
+		if(n1 === n2) {
+			link = new SelfLink(n1);
+		} else {
+			link = new Link(n1, n2);
+		}
+		link.text = label || '';
+		links.push(link);
+	}
+	draw();
+}
+
 function output(text) {
 	var element = document.getElementById('output');
 	element.style.display = 'block';
