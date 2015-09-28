@@ -895,7 +895,7 @@ document.onkeypress = function(e) {
 	if(!canvasHasFocus()) {
 		// don't read keystrokes when other things have focus
 		return true;
-	} else if(key >= 0x20 && key <= 0x7E && !e.metaKey && !e.altKey && !e.ctrlKey && selectedObject != null && 'text' in selectedObject) {
+	} else if(key >= 0x20 && key <= 0x7E && !e.metaKey && !e.ctrlKey && selectedObject != null && 'text' in selectedObject) {
 		selectedObject.text += String.fromCharCode(key);
 		resetCaret();
 		draw();
