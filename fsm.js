@@ -587,6 +587,9 @@ function convertLatexShortcuts(text) {
 		text = text.replace(new RegExp('_' + i, 'g'), String.fromCharCode(8320 + i));
 	}
 
+	// overline (not)
+	text = text.replace(/\^_/g, String.fromCharCode(773));
+
 	return text;
 }
 
